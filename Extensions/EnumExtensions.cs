@@ -111,7 +111,7 @@ public static class EnumExtensions
         return allEnumMemberValues.GetValidationMessageForStringValueNotInList(inputEnum.GetType().Name,
             inputEnumMemberValue);
     }
-    
+
     public static Enum ToEnum(this Type inputType)
     {
         if (!inputType.IsEnum)
@@ -119,5 +119,4 @@ public static class EnumExtensions
 
         return (Enum)Enum.ToObject(inputType, -1);
     }
-
 }

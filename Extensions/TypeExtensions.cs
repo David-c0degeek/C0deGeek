@@ -51,5 +51,4 @@ public static class TypeExtensions
             return underlyingType != null && IsSimpleType(underlyingType);
         }
     }
-
 }

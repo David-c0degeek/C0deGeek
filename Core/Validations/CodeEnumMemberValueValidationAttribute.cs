@@ -37,8 +37,8 @@ public class CodeEnumMemberValueValidationAttribute : ValidationAttribute
         if (string.IsNullOrEmpty(propertyValue))
             return ValidationResult.Success!;
 
-        return !_allEnumMemberValues.Contains(propertyValue) 
-            ? new ValidationResult(_theEum.GetValidationMessageForEnumMemberValue(propertyValue)) 
+        return !_allEnumMemberValues.Contains(propertyValue)
+            ? new ValidationResult(_theEum.GetValidationMessageForEnumMemberValue(propertyValue))
             : ValidationResult.Success!;
     }
 }

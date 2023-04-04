@@ -3,7 +3,7 @@ using Extensions;
 
 namespace Core.Validations;
 
-///<summary>
+/// <summary>
 ///     Validation for en enum type
 /// </summary>
 public class CodeEnumDescriptionValidationAttribute : ValidationAttribute

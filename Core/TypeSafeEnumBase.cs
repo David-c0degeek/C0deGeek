@@ -11,6 +11,11 @@ public abstract class TypeSafeEnumBase<T> : CodeNameModel, IComparable where T :
     {
     }
 
+    public int CompareTo(object? other)
+    {
+        return string.Compare(Code, ((TypeSafeEnumBase<T>?)other)?.Code, StringComparison.InvariantCultureIgnoreCase);
+    }
+
     public override string ToString()
     {
         return Name;
@@ -35,7 +40,7 @@ public abstract class TypeSafeEnumBase<T> : CodeNameModel, IComparable where T :
         return fields
             .Select(info => info.GetValue(null))
             .OfType<T>()
-            .FirstOrDefault(x => x.Code.Split(",").Contains(code ?? ""));
+            .FirstOrDefault(x => x.Code.Split(",").Contains(code));
     }
 
     public static string GetValidationMessageForUnsupportedCode(string codeValue)
@@ -54,12 +59,9 @@ public abstract class TypeSafeEnumBase<T> : CodeNameModel, IComparable where T :
         return msg;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
-        if (obj is not TypeSafeEnumBase<T> otherValue)
-        {
-            return false;
-        }
+        if (obj is not TypeSafeEnumBase<T> otherValue) return false;
 
         var typeMatches = GetType() == obj.GetType();
         var valueMatches = Code.Equals(otherValue.Code);
@@ -70,10 +72,5 @@ public abstract class TypeSafeEnumBase<T> : CodeNameModel, IComparable where T :
     public override int GetHashCode()
     {
         return Code.GetHashCode();
-    }
-
-    public int CompareTo(object other)
-    {
-        return string.Compare(Code, ((TypeSafeEnumBase<T>)other).Code, StringComparison.InvariantCultureIgnoreCase);
     }
 }

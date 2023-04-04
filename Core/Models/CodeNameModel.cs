@@ -7,6 +7,8 @@ public class CodeNameModel
 {
     public CodeNameModel()
     {
+        Code = string.Empty;
+        Name = string.Empty;
     }
 
     public CodeNameModel(string code, string name)

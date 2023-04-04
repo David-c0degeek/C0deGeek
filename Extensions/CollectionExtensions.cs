@@ -10,14 +10,11 @@ public static class CollectionExtensions
         }
         else
         {
-            List<T> itemsToDelete = @this
+            var itemsToDelete = @this
                 .Where(predicate)
                 .ToList();
 
-            foreach (var item in itemsToDelete)
-            {
-                @this.Remove(item);
-            }
+            foreach (var item in itemsToDelete) @this.Remove(item);
         }
     }
 }

@@ -5,8 +5,9 @@ namespace Core.Models;
 
 public class CodeNameDescriptionModel : CodeNameModel
 {
-    public CodeNameDescriptionModel()
+    internal CodeNameDescriptionModel()
     {
+        Description = string.Empty;
     }
 
     public CodeNameDescriptionModel(string code, string name, string description) : base(code, name)
@@ -14,7 +15,7 @@ public class CodeNameDescriptionModel : CodeNameModel
         Description = description;
     }
 
-    [JsonProperty("Description", Order = -990)] 
+    [JsonProperty("Description", Order = -990)]
     [JsonPropertyOrder(-990)]
     public string Description { get; set; }
 }

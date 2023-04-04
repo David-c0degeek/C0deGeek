@@ -1,8 +1,8 @@
 ﻿namespace Core;
 
 /// <summary>
-/// Use this class instead of DateTime,
-/// allows for testing (set the UtcDateTime / LocalDateTime to a fixed time)
+///     Use this class instead of DateTime,
+///     allows for testing (set the UtcDateTime / LocalDateTime to a fixed time)
 /// </summary>
 public static class GeekDateTime
 {
@@ -41,7 +41,7 @@ public static class GeekDateTime
         var yearsPassed = toDate.Year - fromDate.Year;
 
         if (toDate.Month < fromDate.Month ||
-            toDate.Month == fromDate.Month && toDate.Day < fromDate.Day)
+            (toDate.Month == fromDate.Month && toDate.Day < fromDate.Day))
             yearsPassed -= 1;
 
         return (uint)yearsPassed;
@@ -50,9 +50,8 @@ public static class GeekDateTime
     // TODO - Make this a "Date Only" method?
     public static int YearsPassedInTime(DateTime fromDate, DateTime toDate)
     {
-        return fromDate <= toDate 
-            ? (int)YearsPassed(fromDate, toDate) 
+        return fromDate <= toDate
+            ? (int)YearsPassed(fromDate, toDate)
             : -1 * (int)YearsPassed(toDate, fromDate);
     }
-
 }
