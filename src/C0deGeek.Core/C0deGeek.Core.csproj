@@ -11,6 +11,7 @@
         <Company>C0deGeek</Company>
         <Description>Core functionality and utilities for C0deGeek libraries</Description>
         <Copyright>Copyright © C0deGeek $([System.DateTime]::Now.Year)</Copyright>
+        <PackageIcon>C0deGeek.Core.Icon.jpg</PackageIcon>
 
         <!-- Package Configuration -->
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -36,6 +37,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Include="C0deGeek.Core.Icon.jpg" Pack="true" PackagePath="\" />
         <None Include="..\..\README.MD" Pack="true" PackagePath="\" />
         <None Include="..\..\LICENSE.md" Pack="true" PackagePath="\" />
     </ItemGroup>

@@ -11,6 +11,7 @@
         <Company>C0deGeek</Company>
         <Description>A collection of useful extensions for .NET applications</Description>
         <Copyright>Copyright © C0deGeek $([System.DateTime]::Now.Year)</Copyright>
+        <PackageIcon>C0deGeek.Extensions.Icon.jpg</PackageIcon>
 
         <!-- Package Configuration -->
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -31,6 +32,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <None Include="C0deGeek.Extensions.Icon.jpg" Pack="true" PackagePath="\" />
         <None Include="..\..\README.MD" Pack="true" PackagePath="\" />
         <None Include="..\..\LICENSE.md" Pack="true" PackagePath="\" />
     </ItemGroup>
