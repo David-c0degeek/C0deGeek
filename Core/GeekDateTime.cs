@@ -9,6 +9,9 @@ public static class GeekDateTime
     private static Func<DateTime> _utcNowFunc = () => DateTime.UtcNow;
     private static Func<DateTime> _systemNowFunc = () => 
         TimeZoneInfo.ConvertTimeFromUtc(_utcNowFunc.Invoke(), TimeZoneInfo.FindSystemTimeZoneById("UTC"));
+    
+    private static readonly object TimeLock = new();
+    private static TimeZoneInfo _currentTimeZone = TimeZoneInfo.Utc;
 
     /// <summary>
     /// Gets the current UTC date and time. Can be mocked for testing.
@@ -89,5 +92,77 @@ public static class GeekDateTime
         return fromDate <= toDate
             ? (int)YearsPassed(fromDate, toDate)
             : -1 * (int)YearsPassed(toDate, fromDate);
+    }
+    
+    /// <summary>
+    /// Sets the time zone safely, with validation.
+    /// </summary>
+    public static void SetTimeZone(string timeZoneId)
+    {
+        try
+        {
+            var timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
+            lock (TimeLock)
+            {
+                _currentTimeZone = timeZone;
+            }
+        }
+        catch (TimeZoneNotFoundException ex)
+        {
+            throw new ArgumentException($"Invalid time zone ID: {timeZoneId}", nameof(timeZoneId), ex);
+        }
+    }
+
+    /// <summary>
+    /// Executes an action with a temporary fixed time, then restores the previous time.
+    /// </summary>
+    public static T ExecuteWithFixedTime<T>(DateTime fixedTime, Func<T> action)
+    {
+        var original = _utcNowFunc;
+        try
+        {
+            SetUtcDateTime(fixedTime);
+            return action();
+        }
+        finally
+        {
+            _utcNowFunc = original;
+        }
+    }
+
+    /// <summary>
+    /// Gets the start of the current business day in the current time zone.
+    /// </summary>
+    public static DateTime StartOfBusinessDay
+    {
+        get
+        {
+            var local = TimeZoneInfo.ConvertTimeFromUtc(_utcNowFunc(), _currentTimeZone);
+            return local.Date.AddHours(9); // Assuming 9 AM start
+        }
+    }
+
+    /// <summary>
+    /// Gets the end of the current business day in the current time zone.
+    /// </summary>
+    public static DateTime EndOfBusinessDay
+    {
+        get
+        {
+            var local = TimeZoneInfo.ConvertTimeFromUtc(_utcNowFunc(), _currentTimeZone);
+            return local.Date.AddHours(17); // Assuming 5 PM end
+        }
+    }
+
+    /// <summary>
+    /// Determines if the current time is within business hours.
+    /// </summary>
+    public static bool IsBusinessHours
+    {
+        get
+        {
+            var local = TimeZoneInfo.ConvertTimeFromUtc(_utcNowFunc(), _currentTimeZone);
+            return local.Hour is >= 9 and < 17 && local.DayOfWeek != DayOfWeek.Saturday && local.DayOfWeek != DayOfWeek.Sunday;
+        }
     }
 }
