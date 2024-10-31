@@ -36,7 +36,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\README.MD" Pack="true" PackagePath="\" />
-        <None Include="..\LICENSE.md" Pack="true" PackagePath="\" />
+        <None Include="..\..\README.MD" Pack="true" PackagePath="\" />
+        <None Include="..\..\LICENSE.md" Pack="true" PackagePath="\" />
     </ItemGroup>
 </Project>
