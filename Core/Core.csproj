@@ -15,7 +15,7 @@
         <!-- Package Configuration -->
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageReadmeFile>README.MD</PackageReadmeFile>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
         <!-- Repository Info -->
