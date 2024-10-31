@@ -29,9 +29,9 @@ jobs:
         run: dotnet test --no-restore --verbosity normal
       - name: Pack Extensions
         if: steps.extract.outputs.project == 'extensions'
-        run: dotnet pack src/Extensions/Extensions.csproj -p:Version=${{ steps.extract.outputs.version }} --configuration Release --no-build -o out
+        run: dotnet pack src/C0deGeek.Extensions/C0deGeek.Extensions.csproj -p:Version=${{ steps.extract.outputs.version }} --configuration Release --no-build -o out
       - name: Pack Core
         if: steps.extract.outputs.project == 'core'
-        run: dotnet pack src/Core/Core.csproj -p:Version=${{ steps.extract.outputs.version }} --configuration Release --no-build -o out
+        run: dotnet pack src/C0deGeek.Core/C0deGeek.Core.csproj -p:Version=${{ steps.extract.outputs.version }} --configuration Release --no-build -o out
       - name: Publish to NuGet
         run: dotnet nuget push ./out/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
