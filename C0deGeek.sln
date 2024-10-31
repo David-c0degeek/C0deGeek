@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "Extensions\Extensions.csproj", "{32C6C2F3-6856-424D-AE74-1E2CEBAA1225}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C0deGeek.Extensions", "C0deGeek.Extensions\C0deGeek.Extensions.csproj", "{32C6C2F3-6856-424D-AE74-1E2CEBAA1225}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{3B8A854F-BB55-4F13-A9B8-A01694225EAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C0deGeek.Core", "C0deGeek.Core\C0deGeek.Core.csproj", "{3B8A854F-BB55-4F13-A9B8-A01694225EAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

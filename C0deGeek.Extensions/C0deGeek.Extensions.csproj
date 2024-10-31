@@ -6,7 +6,7 @@
 
         <!-- Package Metadata -->
         <PackageId>C0deGeek.Extensions</PackageId>
-        <Version>2.0.0</Version>
+        <Version>2.0.1</Version>
         <Authors>David@C0degeek</Authors>
         <Company>C0deGeek</Company>
         <Description>A collection of useful extensions for .NET applications</Description>
@@ -26,6 +26,8 @@
         <!-- Symbols -->
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <AssemblyName>C0deGeek.Extensions</AssemblyName>
+        <RootNamespace>C0deGeek.Extensions</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
