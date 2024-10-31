@@ -1,0 +1,37 @@
+name: Publish C0deGeek Core Libraries
+on:
+  push:
+    tags:
+      - 'core/v*'
+      - 'extensions/v*'
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      - name: Extract version and project
+        id: extract
+        run: |
+          TAG=${GITHUB_REF#refs/tags/}
+          PROJECT=$(echo $TAG | cut -d'/' -f1)
+          VERSION=$(echo $TAG | cut -d'/' -f2 | sed 's/v//')
+          echo "project=$PROJECT" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
+      - name: Pack Extensions
+        if: steps.extract.outputs.project == 'extensions'
+        run: dotnet pack src/Extensions/Extensions.csproj -p:Version=${{ steps.extract.outputs.version }} --configuration Release --no-build -o out
+      - name: Pack Core
+        if: steps.extract.outputs.project == 'core'
+        run: dotnet pack src/Core/Core.csproj -p:Version=${{ steps.extract.outputs.version }} --configuration Release --no-build -o out
+      - name: Publish to NuGet
+        run: dotnet nuget push ./out/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate

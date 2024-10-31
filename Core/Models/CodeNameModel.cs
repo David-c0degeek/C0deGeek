@@ -17,11 +17,11 @@ public class CodeNameModel
         Name = name;
     }
 
-    [JsonProperty("Code", Order = -1000)]
+    [JsonProperty(nameof(Code), Order = -1000)]
     [JsonPropertyOrder(-1000)]
     public string Code { get; set; }
 
-    [JsonProperty("Name", Order = -1000)]
+    [JsonProperty(nameof(Name), Order = -1000)]
     [JsonPropertyOrder(-1000)]
     public string Name { get; set; }
 }
