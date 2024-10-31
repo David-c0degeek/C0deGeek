@@ -1,38 +1,69 @@
 ﻿namespace Core;
 
 /// <summary>
-///     Use this class instead of DateTime,
-///     allows for testing (set the UtcDateTime / LocalDateTime to a fixed time)
+/// Provides a mockable wrapper around DateTime functionality for testing purposes.
+/// This class should be used instead of DateTime directly to enable testing with fixed times.
 /// </summary>
 public static class GeekDateTime
 {
     private static Func<DateTime> _utcNowFunc = () => DateTime.UtcNow;
-
-    private static Func<DateTime> _systemNowFunc = () =>
+    private static Func<DateTime> _systemNowFunc = () => 
         TimeZoneInfo.ConvertTimeFromUtc(_utcNowFunc.Invoke(), TimeZoneInfo.FindSystemTimeZoneById("UTC"));
 
+    /// <summary>
+    /// Gets the current UTC date and time. Can be mocked for testing.
+    /// </summary>
     public static DateTime UtcNow => _utcNowFunc.Invoke();
+
+    /// <summary>
+    /// Gets the current system local date and time. Can be mocked for testing.
+    /// </summary>
     public static DateTime Now => _systemNowFunc.Invoke();
+
+    /// <summary>
+    /// Gets the current system local date at midnight. Can be mocked for testing.
+    /// </summary>
     public static DateTime Today => _systemNowFunc.Invoke().Date;
+
+    /// <summary>
+    /// Gets the current UTC date at midnight. Can be mocked for testing.
+    /// </summary>
     public static DateTime UtcToday => _utcNowFunc.Invoke().Date;
 
+    /// <summary>
+    /// Sets a fixed UTC date and time for testing purposes.
+    /// </summary>
+    /// <param name="dateTimeNow">The fixed UTC date and time to use.</param>
     public static void SetUtcDateTime(DateTime dateTimeNow)
     {
         _utcNowFunc = () => dateTimeNow;
     }
 
+    /// <summary>
+    /// Sets the time zone for local time calculations.
+    /// </summary>
+    /// <param name="timeZoneId">The time zone identifier to use.</param>
     public static void SetLocalDateTime(string timeZoneId)
     {
         _systemNowFunc = () =>
             TimeZoneInfo.ConvertTimeFromUtc(_utcNowFunc.Invoke(), TimeZoneInfo.FindSystemTimeZoneById(timeZoneId));
     }
 
+    /// <summary>
+    /// Resets the date and time functions to use actual system time.
+    /// </summary>
     public static void ResetDateTime()
     {
         _utcNowFunc = () => DateTime.UtcNow;
         _systemNowFunc = () => DateTime.Now;
     }
 
+    /// <summary>
+    /// Calculates the number of complete years between two dates.
+    /// </summary>
+    /// <param name="fromDate">The starting date.</param>
+    /// <param name="toDate">The ending date.</param>
+    /// <returns>The number of complete years between the dates, or 0 if fromDate is later than toDate.</returns>
     public static uint YearsPassed(DateTime fromDate, DateTime toDate)
     {
         if (fromDate > toDate)
@@ -47,7 +78,12 @@ public static class GeekDateTime
         return (uint)yearsPassed;
     }
 
-    // TODO - Make this a "Date Only" method?
+    /// <summary>
+    /// Calculates the number of years between two dates, including negative values for reverse calculations.
+    /// </summary>
+    /// <param name="fromDate">The starting date.</param>
+    /// <param name="toDate">The ending date.</param>
+    /// <returns>The number of years between the dates (negative if fromDate is later than toDate).</returns>
     public static int YearsPassedInTime(DateTime fromDate, DateTime toDate)
     {
         return fromDate <= toDate

@@ -1,44 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Extensions;
+﻿using Extensions;
 
 namespace Core.Validations;
 
 /// <summary>
-///     Validation for en enum type
+/// Validates that a value matches an enum description
 /// </summary>
-public class CodeEnumDescriptionValidationAttribute : ValidationAttribute
+public class CodeEnumDescriptionValidationAttribute : EnumValidationAttributeBase
 {
-    private readonly List<string> _allEnumDescriptions;
+    public CodeEnumDescriptionValidationAttribute(Type enumType) 
+        : base(enumType, e => e.GetAllDescriptions()) { }
 
-    private readonly Enum _theEum;
-
-    /// <summary>
-    ///     Validation for en enum type
-    /// </summary>
-    /// <param name="enumType">The type of the enum</param>
-    public CodeEnumDescriptionValidationAttribute(Type enumType)
-    {
-        if (!enumType.IsEnum)
-            throw new Exception($"Type {nameof(enumType)} must be an enum");
-
-        _theEum = (Enum)Enum.ToObject(enumType, -1);
-
-        _allEnumDescriptions = _theEum.GetAllDescriptions();
-    }
-
-    protected override ValidationResult IsValid(object? value,
-        ValidationContext validationContext)
-    {
-        if (value is null)
-            return ValidationResult.Success!;
-
-        var propertyValue = value.ToString();
-
-        if (string.IsNullOrEmpty(propertyValue))
-            return ValidationResult.Success!;
-
-        return !_allEnumDescriptions.Contains(propertyValue)
-            ? new ValidationResult(_theEum.GetValidationMessageForDescription(propertyValue))
-            : ValidationResult.Success!;
-    }
+    protected override string GetValidationMessage(string invalidValue) 
+        => TheEnum.GetValidationMessageForDescription(invalidValue);
 }
